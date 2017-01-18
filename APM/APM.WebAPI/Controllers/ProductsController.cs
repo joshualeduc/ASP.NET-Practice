@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Web.Http.OData;
 
 namespace APM.WebAPI.Controllers
 {
@@ -13,17 +14,24 @@ namespace APM.WebAPI.Controllers
     public class ProductsController : ApiController
     {
         // GET: api/Products
-        public IEnumerable<Product> Get()
-        {
-            var productRepository = new ProductRepository();
-            return productRepository.Retrieve();
-        }
+        //This code is for regular get routes without odata
+        //public IEnumerable<Product> Get()
+        //{
+        //    var productRepository = new ProductRepository();
+        //    return productRepository.Retrieve();
+        //}
 
-        public IEnumerable<Product> Get(string search)
+        //public IEnumerable<Product> Get(string search)
+        //{
+        //    var productRepository = new ProductRepository();
+        //    var products = productRepository.Retrieve();
+        //    return products.Where(p => p.ProductCode.Contains(search));
+        //}
+        [EnableQuery()]
+        public IQueryable<Product> Get()
         {
             var productRepository = new ProductRepository();
-            var products = productRepository.Retrieve();
-            return products.Where(p => p.ProductCode.Contains(search));
+            return productRepository.Retrieve().AsQueryable();
         }
 
         // GET: api/Products/5
