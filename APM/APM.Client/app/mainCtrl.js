@@ -19,7 +19,7 @@
         };
 
         vm.registerUser = function () {
-            vm.userData.confirmPassword = vm.userData.password;
+            vm.userData.confirmPassword = vm.userData.password; //don't do this in a real app
 
             userAccount.registerUser(vm.userData,
                 function (data) {

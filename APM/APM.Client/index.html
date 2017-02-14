@@ -44,7 +44,7 @@
     </nav>
 
     <div class="container">
-        <div ng-if="vm.isLoggedIn"
+        <div 
              ng-include="'app/products/productEditView.html'"></div>
     </div>
 
@@ -54,7 +54,6 @@
 
     <!-- Application Script -->
     <script src="app/app.js"></script>
-    <script src="app/mainCtrl.js"></script>
 
     <!-- Services -->
     <script src="common/common.services.js"></script>
@@ -64,6 +63,7 @@
     <!-- Product Controllers -->
     <script src="app/products/productListCtrl.js"></script>
     <script src="app/products/productEditCtrl.js"></script>
+    <script src="app/mainCtrl.js"></script>
 </body>
 
 </html>
