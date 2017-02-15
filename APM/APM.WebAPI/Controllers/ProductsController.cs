@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Web.Http.Description;
 using System.Web.Http.OData;
 
 namespace APM.WebAPI.Controllers
@@ -42,6 +43,8 @@ namespace APM.WebAPI.Controllers
         }
 
         // GET: api/Products/5
+        [ResponseType(typeof(Product))]
+        [Authorize()]
         public IHttpActionResult Get(int id)
         {
             Product product;

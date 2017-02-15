@@ -5,11 +5,14 @@
         .module("productManagement")
         .controller("MainCtrl",
                     ["userAccount",
+                        "currentUser",
                         MainCtrl]);
 
-    function MainCtrl(userAccount) {
+    function MainCtrl(userAccount, currentUser) {
         var vm = this;
-        vm.isLoggedin = false;
+        vm.isLoggedIn = function () {
+            return currentUser.getProfile().isLoggedIn;
+        };
         vm.message = '';
         vm.userData = {
             userName: '',
@@ -21,7 +24,7 @@
         vm.registerUser = function () {
             vm.userData.confirmPassword = vm.userData.password; //don't do this in a real app
 
-            userAccount.registerUser(vm.userData,
+            userAccount.registration.registerUser(vm.userData,
                 function (data) {
                     vm.confirmPassword = "";
                     vm.message = "... Registeration successful";
@@ -42,7 +45,25 @@
         }
 
         vm.login = function () {
+            vm.userData.grant_type = "password";
+            vm.userData.userName = vm.userData.email;
 
+            userAccount.login.loginUser(vm.userData,
+                function (data) {
+                    vm.message = "";
+                    vm.password = "";
+                    currentUser.setProfile(vm.userData.userName, data.access_token);
+                },
+                function (response) {
+                    vm.password = "";
+                    vm.message = response.statusText + "\r\n";
+                    if (response.data.exceptionMessage) {
+                        vm.message += response.data.exceptionMessage;
+                    }
+                    if (response.data.error) {
+                        vm.message += response.data.error;
+                    }
+                });
         }
     }
 })();
